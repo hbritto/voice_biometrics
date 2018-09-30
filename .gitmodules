@@ -1,0 +1,3 @@
+[submodule "deep-speaker"]
+	path = deep-speaker
+	url = git@github.com:hbritto/deep-speaker.git
