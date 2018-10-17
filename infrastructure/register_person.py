@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 """Módulo de registro de novos embeddings de pessoas."""
 
+import pickle
 import os
 import sys
 sys.path.append('..')
 from voice_biometrics.deep_speaker.audio_reader import AudioReader
 from voice_biometrics.deep_speaker.constants import c
 from voice_biometrics.deep_speaker.unseen_speakers import inference_embeddings
+from voice_biometrics.audio_utils.recorder import Recorder
 
 
 def _update_cache(base_dir, person_folder):
@@ -24,7 +26,7 @@ def _make_embedding(audio_reader, name):
     return embed
 
 
-def register(base_dir, name, recogniser, n_audio=4):
+def register(base_dir, name, n_audio=4):
     person_folder = os.path.join(base_dir, name, '')
     os.makedirs(person_folder, exist_ok=True)
     rec = Recorder()
@@ -36,3 +38,8 @@ def register(base_dir, name, recogniser, n_audio=4):
 
     reader = _update_cache(base_dir, person_folder)
     embed = _make_embedding(reader, name)
+    person = {name: embed}
+    with open(os.path.join(base_dir, name + '.pkl'), 'wb') as pkl:
+        pickle.dump(person, pkl)
+
+    return person
