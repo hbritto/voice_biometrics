@@ -41,8 +41,8 @@ class VoiceRecogniser:
             threshold = self.threshold
 
         distances, indices = self._nn.kneighbors([embedding], n_neighbors=1)
-        distance = distances[0]
-        index = indices[0]
+        distance = distances[0][0]
+        index = indices[0][0]
         if distance <= threshold:
             emb = self.embeddings[index]
             return self.embedding_to_person[emb], distance

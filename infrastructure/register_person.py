@@ -18,6 +18,11 @@ def _update_cache(base_dir, person_folder):
                                sample_rate=c.AUDIO.SAMPLE_RATE,
                                multi_threading=True)
     audio_reader.build_cache()
+    # Atualizando cache interno
+    audio_reader = AudioReader(input_audio_dir=person_folder,
+                               output_cache_dir=cache_dir,
+                               sample_rate=c.AUDIO.SAMPLE_RATE,
+                               multi_threading=True)
     return audio_reader
 
 
@@ -32,12 +37,15 @@ def register(base_dir, name, n_audio=4):
     rec = Recorder()
 
     for i in range(n_audio):
-        print('Áudio número {:>02d} de {:>02d}'.format(i + 1, n_audio))
+        print('Áudio número {:>02d} de {:>02d}'
+              .format(i + 1, n_audio))
         with rec.open(os.path.join(person_folder, '{}_{:>03d}.wav'.format(name, i))) as recfile:
             recfile.record(8)
-
+    print('Áudio gravado')
     reader = _update_cache(base_dir, person_folder)
+    print('Cache atualizado')
     embed = _make_embedding(reader, name)
+    print('Embedding criado')
     person = {name: embed}
     with open(os.path.join(base_dir, name + '.pkl'), 'wb') as pkl:
         pickle.dump(person, pkl)

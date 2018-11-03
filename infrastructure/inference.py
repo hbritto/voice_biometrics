@@ -12,7 +12,7 @@ class Inference:
         
         person, dist = self.recogniser.recognise(embedding)
         if return_distance:
-            return person, distance
+            return person, dist
         return person
 
     def update_recogniser(self, person: dict):
