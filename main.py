@@ -27,8 +27,8 @@ if __name__ == '__main__':
             identified_person, distance = inference.identify_person(
                 next(iter(person.values())), return_distance=True)
             if identified_person:
-                print('Pessoa identificada: {}'.format(identified_person))
-                print('Distância calculada do áudio enviado ao de {}: {}'.format(identified_person, distance))
+                print(f'Pessoa identificada: {identified_person}')
+                print(f'Distância calculada do áudio enviado ao de {identified_person}: {distance}')
             else:
                 print('Pessoa não identificada.')
         else:
