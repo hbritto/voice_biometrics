@@ -16,12 +16,17 @@ if __name__ == "__main__":
                          sample_rate=c.AUDIO.SAMPLE_RATE, multi_threading=True)
     with open(os.path.join(cache_dir, 'embeddings.pkl'), 'rb') as pkl:
         all_embs = pickle.load(pkl)
-    inference.update_recogniser(all_embs)
-    me = 'Henrique'
+
+    me = 'PhilippeRemy'
     me_emb = inference_embeddings(reader, me)
+    all_embs.update({me: me_emb})
+    inference.update_recogniser(all_embs)
+    with open('p.txt', 'w') as per:
+        print(inference.recogniser.persons, file=per, flush=True)
     iterations = range(1, 30)
     results = []
     for i in iterations:
+        me_emb = inference_embeddings(reader, me)
         pers, dist = inference.identify_person(me_emb, True)
         print(pers)
         results.append((pers, dist))
